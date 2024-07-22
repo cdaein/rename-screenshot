@@ -31,6 +31,42 @@ var user_config_default = {
   }
 };
 
+// package.json
+var package_default = {
+  name: "rename-screenshot",
+  version: "0.1.0",
+  main: "index.js",
+  type: "module",
+  bin: {
+    "rename-screenshot": "bin/rename-screenshot.js"
+  },
+  scripts: {
+    watch: "tsup --watch",
+    build: "tsc --noemit && tsup ./src/index.ts"
+  },
+  keywords: [
+    "llm",
+    "multimodal",
+    "nodejs"
+  ],
+  author: "Daeinc",
+  description: "",
+  devDependencies: {
+    "@types/async": "^3.2.24",
+    "@types/node": "^20.14.11",
+    tsup: "^8.2.2",
+    typescript: "^5.5.3"
+  },
+  dependencies: {
+    async: "^3.2.5",
+    chokidar: "^3.6.0",
+    commander: "^12.1.0",
+    dotenv: "^16.4.5",
+    kleur: "^4.1.5",
+    openai: "^4.52.7"
+  }
+};
+
 // src/index.ts
 var categories = user_config_default.categories;
 var categoryPrompt = `Identify the image's category from the following rule: 
@@ -43,7 +79,9 @@ For example, terminal, youtube, photoshop, etc.
 Do not include file extension such as png, jpg or txt. Use dash to connect words. 
 ${categoryPrompt}
 Return as structured json in the format { category, filename } and nothing else.`;
-program.option(
+program.version(package_default.version).description(
+  "Rename and organize Mac screenshots by their contents with the help of AI. This tool watches for any new screenshots, renames it to describe its content, moves it to one of the pre-defined categorical directories."
+).option(
   "--detail <value>",
   "What image resolution to use for inference",
   "low"
@@ -54,6 +92,10 @@ program.option(
 ).option("--outdir <folder_path>", "Path to save renamed images to").option("--retroactive", "Process already existing screenshots").option("--watch", "Watch for new screenshots");
 program.parse();
 var opts = program.opts();
+if (!opts.watch && !opts.retroactive) {
+  console.error("Missing options. Add --watch and/or --retroactive");
+  process.exit(1);
+}
 var providerOpt = opts.provider.toLowerCase();
 if (providerOpt !== "openai" && providerOpt !== "ollama") {
   console.error(`Selected provider ${providerOpt} is not supported`);
@@ -84,13 +126,13 @@ for (const category in categories) {
   const categoryDir = path.join(outDir, category);
   if (!fs.existsSync(categoryDir)) {
     fs.mkdirSync(categoryDir, { recursive: true });
-    console.log(`Created ${categoryDir} folder`);
+    console.log(`Created folder: ${yellow(categoryDir)}`);
   }
 }
 var origDir = path.join(outDir, "original");
 if (!fs.existsSync(origDir)) {
   fs.mkdirSync(origDir, { recursive: true });
-  console.log(`Created ${yellow(origDir)} folder`);
+  console.log(`Created folder: ${yellow(origDir)}`);
 }
 var queue = async.queue((filePath, cb) => {
   processFile(filePath).then(() => {
@@ -107,10 +149,23 @@ queue.drain(() => {
   }
 });
 if (opts.retroactive) {
-  fs.promises.readdir(watchPath).then(async (files) => {
+  fs.promises.readdir(watchPath).then((files) => {
+    const filesToProcess = [];
     for (const file of files) {
       const filePath = path.join(watchPath, file);
       if (!fs.lstatSync(filePath).isFile()) continue;
+      if (!isMacScreenshot(path.basename(filePath))) continue;
+      filesToProcess.push(filePath);
+    }
+    if (filesToProcess.length === 0) {
+      if (!opts.watch) {
+        console.log(
+          "No screenshot was found. Use --watch for continuous monitoring."
+        );
+        process.exit(0);
+      }
+    }
+    for (const filePath of filesToProcess) {
       queue.push(filePath, (e) => {
         e && console.error(e);
       });
