@@ -11,7 +11,7 @@ I took inspiration from [Charlie Holtz](https://x.com/charliebholtz/status/17376
 ## How to Install
 
 1. Clone this repo: `git clone https://github.com/cdaein/rename-screenshot.git`
-2. Change directory to the repo: `cd rename-screenshot`
+2. Change directory to the local repo: `cd rename-screenshot`
 3. Install dependency: `npm i`
 4. Install as a global package (don't forget the `.`): `npm i -g .`
 5. Run with `rename-screenshot` from anywhere.
@@ -54,9 +54,8 @@ You can customize `app.config.json` file to add/remove custom categories. When t
 ```json
 {
   "categories": {
-    ...
     "math": "the image has mathmatical notation or graph"
-  },
+  }
 }
 ```
 
