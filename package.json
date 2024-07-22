@@ -1,0 +1,34 @@
+{
+  "name": "rename-screenshot",
+  "version": "0.1.0",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "rename-screenshot": "bin/rename-screenshot.js"
+  },
+  "scripts": {
+    "watch": "tsup --watch",
+    "build": "tsc --noemit && tsup ./src/index.ts"
+  },
+  "keywords": [
+    "llm",
+    "multimodal",
+    "nodejs"
+  ],
+  "author": "Daeinc",
+  "description": "",
+  "devDependencies": {
+    "@types/async": "^3.2.24",
+    "@types/node": "^20.14.11",
+    "tsup": "^8.2.1",
+    "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "async": "^3.2.5",
+    "chokidar": "^3.6.0",
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
+    "kleur": "^4.1.5",
+    "openai": "^4.52.7"
+  }
+}
