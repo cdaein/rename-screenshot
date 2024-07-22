@@ -37,7 +37,7 @@ rename-screenshot --detail <value> \ # What image resolution to use for inferenc
 
 ### Ollama (default option)
 
-You can do everything locally on your Mac without sending any data to a third-party. You can test it by turning off the wifi and run the program. Check [Ollama Github repo](https://github.com/ollama/ollama) for installation instructions. It's pretty straight forward and you don't need much technical knowledge. Once you have Ollama installed, download one of the multimodal models that can process image input such as "llava". Open `user.config.json` file and set the model to what you downloaded. The downside of local inference is that depending on your computer, it can be slow and the quality is not as good as closed models.
+You can do everything locally on your Mac without sending any data to a third-party. Check [Ollama Github repo](https://github.com/ollama/ollama) for installation instructions. It's pretty straight forward and you don't need much technical knowledge. Once you have Ollama installed, download one of the multimodal models that can process image input such as "llava". Open `user.config.json` file and set the model to what you downloaded. The downside of local inference is that depending on your computer, it can be slow and the quality is not as good as closed models.
 
 ### OpenAI
 
