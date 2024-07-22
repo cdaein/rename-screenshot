@@ -8,6 +8,8 @@ The default Mac screenshot file names are not formatted well in my opinion. It d
 
 I took inspiration from [Charlie Holtz](https://x.com/charliebholtz/status/1737667912784134344?s=20)'s namedrop project and made my own version to meet my needs.
 
+https://github.com/user-attachments/assets/f2bd90e9-1b0c-4133-9edd-90f2b84afdfd
+
 ## How to Install
 
 1. Clone this repo: `git clone https://github.com/cdaein/rename-screenshot.git`
