@@ -21,6 +21,7 @@ import { program } from "commander";
 import { yellow } from "kleur/colors";
 import userConfig from "../user.config.json";
 import type { Category, JsonResponse, Options } from "./types";
+import packageJson from "../package.json";
 
 /** User-defined categories. name and description. */
 export const categories = userConfig.categories;
@@ -39,6 +40,10 @@ ${categoryPrompt}
 Return as structured json in the format { category, filename } and nothing else.`;
 
 program
+  .version(packageJson.version)
+  .description(
+    "Rename and organize Mac screenshots by their contents with the help of AI. This tool watches for any new screenshots, renames it to describe its content, moves it to one of the pre-defined categorical directories.",
+  )
   .option(
     "--detail <value>",
     "What image resolution to use for inference",
