@@ -41,7 +41,7 @@ You can do everything locally on your Mac without sending any data to a third-pa
 
 ### OpenAI
 
-You will need to create [an OpenAI API key](https://platform.openai.com/) and pay for usage. Then, create the `.env` file in the project root, and set `OPENAI_API_KEY=your-key`. See `.env.example` file for reference. You can change the model in `user.config.json`. When you use OpenAI API, your data (prompt and image) are sent to their server. Sensitive information such as password, financial data, medical data may be accidently sent if they are part of a screenshot. Also, make sure not to expose your API key on the web.
+You will need to create [an OpenAI API key](https://platform.openai.com/) and pay for usage. Then, create the `.env` file in the project root, and set `OPENAI_API_KEY=your-key`. See `.env.example` file for reference. You can change the model in `user.config.json`. **When you use OpenAI API, your data (prompt and image) are sent to their server. Sensitive information such as password, financial data, medical data may be accidently sent if they are part of a screenshot.** Also, make sure not to expose your API key on the web.
 
 ## Customization
 
