@@ -107,14 +107,14 @@ for (const category in categories) {
   const categoryDir = path.join(outDir, category);
   if (!fs.existsSync(categoryDir)) {
     fs.mkdirSync(categoryDir, { recursive: true });
-    console.log(`Created ${categoryDir} folder`);
+    console.log(`Created folder: ${yellow(categoryDir)}`);
   }
 }
 
 const origDir = path.join(outDir, "original");
 if (!fs.existsSync(origDir)) {
   fs.mkdirSync(origDir, { recursive: true });
-  console.log(`Created ${yellow(origDir)} folder`);
+  console.log(`Created folder: ${yellow(origDir)}`);
 }
 
 const queue = async.queue((filePath: string, cb) => {
