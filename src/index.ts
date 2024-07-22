@@ -144,12 +144,26 @@ queue.drain(() => {
 
 // add existing screenshots to the queue
 if (opts.retroactive) {
-  fs.promises.readdir(watchPath).then(async (files) => {
+  // first check if there's any existing files to process
+  fs.promises.readdir(watchPath).then((files) => {
+    const filesToProcess: string[] = [];
     for (const file of files) {
       const filePath = path.join(watchPath, file);
       if (!fs.lstatSync(filePath).isFile()) continue;
-      // process one image at a time not to overload API
-      // await processFile(filePath);
+      if (!isMacScreenshot(path.basename(filePath))) continue;
+      filesToProcess.push(filePath);
+    }
+    // if there's none, and no watching, exit
+    if (filesToProcess.length === 0) {
+      if (!opts.watch) {
+        console.log(
+          "No screenshot was found. Use --watch for continuous monitoring.",
+        );
+        process.exit(0);
+      }
+    }
+    // if there's some, add to the queue
+    for (const filePath of filesToProcess) {
       queue.push(filePath, (e) => {
         e && console.error(e);
       });
