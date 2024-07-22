@@ -62,6 +62,12 @@ program.parse();
 
 const opts: Options = program.opts();
 
+// watch an/or process existing images
+if (!opts.watch && !opts.retroactive) {
+  console.error("Missing options. Add --watch and/or --retroactive");
+  process.exit(1);
+}
+
 // check provider
 const providerOpt = opts.provider.toLowerCase();
 if (providerOpt !== "openai" && providerOpt !== "ollama") {
@@ -151,7 +157,7 @@ if (opts.retroactive) {
   });
 }
 
-// listen for file change event on "desktop"
+// listen for file add event on "desktop"
 const watcher = chokidar.watch(watchPath, {
   persistent: true,
   ignoreInitial: true,
