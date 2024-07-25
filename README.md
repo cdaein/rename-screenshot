@@ -13,10 +13,11 @@ https://github.com/user-attachments/assets/f2bd90e9-1b0c-4133-9edd-90f2b84afdfd
 ## How to Install
 
 1. Clone this repo: `git clone https://github.com/cdaein/rename-screenshot.git`
-2. Change directory to the local repo: `cd rename-screenshot`
-3. Install dependency: `npm i`
-4. Install as a global package (don't forget the `.`): `npm i -g .`
-5. Run with `rename-screenshot` from anywhere.
+1. Change directory to the local repo: `cd rename-screenshot`
+1. Install dependency: `npm i`
+1. Build the script: `npm run build`
+1. Install as a global package (don't forget the `.`): `npm i -g .`
+1. Run with `rename-screenshot` from anywhere.
 
 ## How to Use
 
