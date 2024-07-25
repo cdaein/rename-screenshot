@@ -19,9 +19,60 @@ import OpenAI from "openai";
 import async from "async";
 import { program } from "commander";
 import { yellow } from "kleur/colors";
-import userConfig from "../user.config.json";
-import type { Category, JsonResponse, Options } from "./types";
+// import userConfig from "../user.config.json";
+import type { Config, JsonResponse, Options } from "./types";
 import packageJson from "../package.json";
+import { fileURLToPath } from "node:url";
+
+const defaultConfig = {
+  categories: {
+    code: "the majority of the text is computer code",
+    reference: "the image is a photograph",
+    web: "the image shows a webpage",
+    other: "the image doesn't belong to other categories",
+  },
+  ollama: {
+    baseURL: "http://localhost:11434/v1/",
+    model: "llava",
+    maxTokens: 30,
+  },
+  openai: {
+    baseURL: "https://api.openai.com/v1",
+    model: "gpt-4o-mini",
+    maxTokens: 30,
+  },
+};
+
+async function loadConfig(): Promise<Config> {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  const configPath = path.resolve(__dirname, "../user.config.json");
+
+  try {
+    await fs.promises.access(configPath);
+    const fileContent = fs.readFileSync(configPath, "utf-8");
+    const userConfig = JSON.parse(fileContent);
+
+    // Shallow merge user config with default config
+    return Object.assign({}, defaultConfig, userConfig.default);
+  } catch (error) {
+    if (error instanceof Error) {
+      if ("code" in error && error.code === "ENOENT") {
+        console.log(
+          "User configuration file not found. Using default configuration.",
+        );
+      } else {
+        console.warn("Error loading user configuration:", error.message);
+      }
+    } else {
+      // Non-Error object thrown
+      console.warn("An unexpected error occurred:", error);
+    }
+    return defaultConfig;
+  }
+}
+
+const userConfig = await loadConfig();
 
 /** User-defined categories. name and description. */
 export const categories = userConfig.categories;
@@ -29,13 +80,13 @@ export const categories = userConfig.categories;
 /** Explain to ChatGPT how each category should be used */
 const categoryPrompt = `Identify the image's category from the following rule: 
 ${Object.keys(categories).map((cat) => {
-  return `If ${categories[cat as Category]}, set it to "${cat}"`;
+  return `If ${categories[cat]}, set it to "${cat}"`;
 })}`;
 
-const prompt = `Suggest a short file name in 1-3 words.
+const prompt = `Suggest a short and concise file name in 1-3 words.
 If you can identify the software or website being used, add that as part of the new name.
 For example, terminal, youtube, photoshop, etc.
-Do not include file extension such as png, jpg or txt. Use dash to connect words. 
+Do not include file extension such as .png, .jpg or .txt. Use dash to connect words. 
 ${categoryPrompt}
 Return as structured json in the format { category, filename } and nothing else.`;
 

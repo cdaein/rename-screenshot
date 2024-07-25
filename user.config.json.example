@@ -7,14 +7,14 @@
     "youtube": "the image has youtube interface",
     "other": "the image doesn't belong to other categories"
   },
-  "openai": {
-    "baseURL": "https://api.openai.com/v1",
-    "model": "gpt-4o-mini",
-    "maxTokens": 30
-  },
   "ollama": {
     "baseURL": "http://localhost:11434/v1/",
     "model": "llava",
+    "maxTokens": 30
+  },
+  "openai": {
+    "baseURL": "https://api.openai.com/v1",
+    "model": "gpt-4o-mini",
     "maxTokens": 30
   }
 }

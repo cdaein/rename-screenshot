@@ -1,4 +1,4 @@
-import { categories } from ".";
+// import { categories } from ".";
 
 export type Options = {
   /** image resolution used for inference */
@@ -13,11 +13,24 @@ export type Options = {
   watch: boolean;
 };
 
-export type Category = keyof typeof categories;
+/** API Provider options */
+export type ProviderOptions = {
+  baseURL: string;
+  model: string;
+  maxTokens: number;
+};
+
+// export type Category = keyof typeof categories;
+
+export type Config = {
+  categories: Record<string, string>;
+  ollama: ProviderOptions;
+  openai: ProviderOptions;
+};
 
 export type JsonResponse = {
   /** One of the predefined categories */
-  category?: Category;
+  category?: string;
   /** New filename created by chatGPT. doesn't include extension */
   filename: string;
 };

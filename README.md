@@ -46,13 +46,11 @@ You will need to create [an OpenAI API key](https://platform.openai.com/) and pa
 
 ## Customization
 
-### Datetime Format
-
-I made a few arbitrary choices to meet my needs - for example, how it detects a screenshot image is based on the original file naming. This may be different if your language is not English or if you are using different datetime formatting. You can look at `index.ts` file and change it to meet your needs.
+Copy `user.config.json.example` to `user.config.json` to add cutom configurations.
 
 ### Category
 
-You can customize `app.config.json` file to add/remove custom categories. When the image content matches one of the category description, it will be moved to a corresponding sub-directory. For example, if you make many screenshots of mathematical forumula or graphs, consider adding the following. The images that meet the condition will be saved to `Screenshots/math/`:
+You can customize `user.config.json` file to add/remove categories. When the image content matches one of the category description, it will be moved to a corresponding sub-directory. For example, if you make many screenshots of mathematical forumula or graphs, consider adding the following. The images that meet the condition will be saved to `Screenshots/math/`:
 
 ```json
 {
@@ -61,6 +59,14 @@ You can customize `app.config.json` file to add/remove custom categories. When t
   }
 }
 ```
+
+### Filename Length
+
+When using Ollama, you may see a warning `Model stopped generating: length` due to the response exceeding the max token length. You can update `maxTokens` in `user.config.json` file to minimize the issue.
+
+### Datetime Format
+
+I made a few arbitrary choices to meet my needs - for example, how it detects a screenshot image is based on the original file naming. This may be different if your language is not English or if you are using different datetime formatting. You can look at `index.ts` file and change it to meet your needs.
 
 ## Disclaimer
 
