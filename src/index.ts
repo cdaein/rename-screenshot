@@ -54,7 +54,7 @@ async function loadConfig(): Promise<Config> {
     const userConfig = JSON.parse(fileContent);
 
     // Shallow merge user config with default config
-    return Object.assign({}, defaultConfig, userConfig.default);
+    return Object.assign({}, defaultConfig, userConfig);
   } catch (error) {
     if (error instanceof Error) {
       if ("code" in error && error.code === "ENOENT") {
