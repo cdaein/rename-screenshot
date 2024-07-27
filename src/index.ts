@@ -156,9 +156,11 @@ const watchPath = opts.watchdir || path.join(os.homedir(), "Desktop");
 // check if user-provided watchDir is a folder path and exists
 if (!fs.existsSync(watchPath)) {
   console.error(`Watch directory doesn't exist.`);
+  process.exit(1);
 }
 if (!fs.lstatSync(watchPath).isDirectory()) {
   console.error(`Watch directory is not a directory.`);
+  process.exit(1);
 }
 
 // set up outDir
