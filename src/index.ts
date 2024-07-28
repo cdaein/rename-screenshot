@@ -107,6 +107,7 @@ program
   )
   .option("--outdir <folder_path>", "Path to save renamed images to")
   .option("--retroactive", "Process already existing screenshots")
+  .option("--watchdir <folder_path>", "Folder to watch screenshots from")
   .option("--watch", "Watch for new screenshots");
 
 program.parse();
@@ -150,7 +151,17 @@ const client = new OpenAI({
   apiKey: providerOpt === "openai" ? OPENAI_API_KEY : "ollama",
 });
 
-const watchPath = path.join(os.homedir(), "Desktop");
+const watchPath = opts.watchdir || path.join(os.homedir(), "Desktop");
+
+// check if user-provided watchDir is a folder path and exists
+if (!fs.existsSync(watchPath)) {
+  console.error(`Watch directory doesn't exist.`);
+  process.exit(1);
+}
+if (!fs.lstatSync(watchPath).isDirectory()) {
+  console.error(`Watch directory is not a directory.`);
+  process.exit(1);
+}
 
 // set up outDir
 const outDir = opts.outdir || path.join(watchPath, "Screenshots");

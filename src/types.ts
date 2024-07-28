@@ -9,6 +9,8 @@ export type Options = {
   provider: "openai" | "ollama";
   /** process existing screenshots? */
   retroactive: boolean;
+  /** Folder to watch screenshots from */
+  watchdir: string;
   /** continue monitor new screenshots */
   watch: boolean;
 };

@@ -27,7 +27,8 @@ To keep watching new screenshots as they come in, add `--watch` option. Otherwis
 
 ```sh
 rename-screenshot --detail <value> \ # What image resolution to use for inference. default: low
-                  --outdir <folder_path> \ # Folder to save renamed screenshots to. default: ~/Desktop/Screenshots
+                  --watchdir <folder_path> \ # Folder to watch screenshots from. default: ~/Desktop
+                  --outdir <folder_path> \ # Folder to save renamed screenshots to. default: <watch_dir>/Screenshots
                   --provider <api_provider> \ # API provider. either openai or ollama. default: ollama
                   --retroactive \ # Process existing screenshots
                   --watch \ # Continue watch for new screenshots.
@@ -67,6 +68,10 @@ When using Ollama, you may see a warning `Model stopped generating: length` due 
 ### Datetime Format
 
 I made a few arbitrary choices to meet my needs - for example, how it detects a screenshot image is based on the original file naming. This may be different if your language is not English or if you are using different datetime formatting. You can look at `index.ts` file and change it to meet your needs.
+
+### Directory Setup
+
+You can set a custom folder to watch screenshots from by using `--watchdir`. This way, screenshots will be processed only if you place them in the watch directory. Also, set where to save the processed images by using `--outdir`.
 
 ## Disclaimer
 
