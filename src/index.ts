@@ -10,19 +10,17 @@
 // - update app.config.json structure categories: [ {"code": "...", "dest": "~/Documents/images/"}, { ... } ]
 
 import chokidar from "chokidar";
+import dotenv from "dotenv";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import OpenAI from "openai";
-// import dotenv from "dotenv";
-// import { fileURLToPath } from "node:url";
 import async from "async";
 import { program } from "commander";
 import { yellow } from "kleur/colors";
-// import userConfig from "../user.config.json";
-import type { Config, JsonResponse, Options } from "./types";
-import packageJson from "../package.json";
 import { fileURLToPath } from "node:url";
+import packageJson from "../package.json";
+import type { Config, JsonResponse, Options } from "./types";
 
 const defaultConfig = {
   categories: {
@@ -113,6 +111,8 @@ program
 program.parse();
 
 const opts: Options = program.opts();
+
+dotenv.config({ override: true });
 
 // watch an/or process existing images
 if (!opts.watch && !opts.retroactive) {
